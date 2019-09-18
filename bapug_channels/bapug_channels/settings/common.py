@@ -31,6 +31,7 @@ BASE_DIR = PROJECT_DIR - 1
 if DEBUG:
     print(f"Project Dir: {PROJECT_DIR} Base dir: {BASE_DIR}")
 
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
@@ -44,7 +45,7 @@ ADMINS = [parseaddr(addr) for addr in env.list("ADMINS", default=default_admins)
 MANAGERS = ADMINS
 
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['channels.local'])
 
 
 # Application definition
