@@ -5,6 +5,12 @@ function init_chat(roomName) {
   chatSocket = new WebSocket(
     `ws://${window.location.host}/ws/chat/${roomName}/`)
   
+  chatSocket.onopen = function(e) {
+    chatSocket.send(JSON.stringify({
+      'message': '<< User has joined the chat >>'
+    }))
+  }
+  
   chatSocket.onmessage = function(e) {
     let data = JSON.parse(e.data)
     let message = data['message']
