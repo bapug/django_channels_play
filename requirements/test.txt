@@ -1,0 +1,26 @@
+-r dev.txt
+
+coverage
+django_coverage_plugin
+
+django-test-plus
+factory_boy<2.12
+model_mommy
+# factory_boy factories for wagtail!
+wagtail_factories
+
+pytest-django
+pytest-asyncio
+pytest-sugar
+pytest-profiling
+pytest-pythonpath
+flake8
+Faker
+
+django-nose
+nose-timer
+unittest-xml-reporting
+
+# integration tests
+selenium
+

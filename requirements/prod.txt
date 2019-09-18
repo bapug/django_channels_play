@@ -1,0 +1,6 @@
+-r base.txt
+
+# Pick one!
+uwsgi==2.0.18
+
+

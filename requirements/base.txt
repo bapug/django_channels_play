@@ -1,0 +1,29 @@
+# Core tools
+django~=2.2
+djangorestframework~=3.10
+markdown~=3.1
+django-filter~=2.1
+django-robots~=3.1
+
+# Database
+psycopg2-binary~=2.8
+
+django-environ
+
+# For caching
+django-redis==4.10.0
+
+# Utilities
+pytz==2019.1
+Pillow==5.4.1
+
+# Channels
+channels==2.2.0
+service_identity==18.1.0
+channels_redis==2.4.0
+
+django-suit==0.2.26
+
+django-webpack-loader==0.6.0
+
+

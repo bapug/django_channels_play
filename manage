@@ -1,0 +1,11 @@
+#!/bin/sh
+
+base=$(cd $(dirname $0);pwd)
+root=$(dirname $(find . -depth -maxdepth 2 -name 'manage.py'))
+cd ${root}
+
+export PYTHONPATH=${base}:${root}
+
+${base}/.venv3/bin/python manage.py "$@"
+
+

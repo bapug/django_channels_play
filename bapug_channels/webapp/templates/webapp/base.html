@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    {% block meta %}
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="p:domain_verify" content="22fe2097c1ac9988947d085ef27e9162"/>
+        <title>
+            BAPUG Channels Example
+        </title>
+    {% endblock %}
+
+    {% block fonts %}
+    {% endblock %}
+
+    {% block base_css %}
+        {# Global stylesheets #}
+        <!-- base_css -->
+        <link rel="stylesheet"
+              href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+              integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+              crossorigin="anonymous">
+        <!-- end base_css -->
+    {% endblock %}
+
+    {% block extra_css %}
+        {# Extra css files #}
+        <!-- base_extra_css -->
+    {% endblock %}
+
+    {% block head_js %}
+    {% endblock head_js %}
+</head>
+
+<body class="{% block body_class %}{% endblock %}">
+{% block body_container %}
+
+    <div class="body-container
+                        {% block container_class %}container-fluid{% endblock %}
+                        ">
+        <div id="site_dialog_root"></div>
+
+        {% block nav_section %}
+            <div class="row">
+                <div class="col m-0">
+                    <div class="navbar-container">
+                        {% block body_header %}
+                            {% include "top_navbar.html" %}
+                        {% endblock body_header %}
+                    </div>
+                </div>
+            </div>
+        {% endblock nav_section %}
+
+        {% block messages %}
+        {% endblock %}
+
+        {% block content_section %}
+            <div class="row">
+                <div class="col m-0">
+                    <div class="content-container" itemscope itemtype="http://schema.org/Article">
+                        <meta itemprop="url" content="{{ request.build_absolute_uri }}" />
+                        <meta itemprop="name" content="{{ page.title }}" />
+                        <span itemprop="datePublished" content="{{ page.first_published_at }}"></span>
+                        {% block content %}
+                        {% endblock %}
+                        {% block privacy_block %}
+                            {% show_terms_if_not_agreed %}
+                            {#{% cookielaw_banner %}#}
+                        {% endblock privacy_block %}
+                    </div>
+                </div>
+            </div>
+        {% endblock content_section %}
+
+        {% block footer_section %}
+            <div class="row">
+                <div class="col m-0">
+                    <div class="footer-container">
+                        {% block footer %}
+                            <!-- base footer -->
+                            {% include "footer.html" %}
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+        {% endblock %}
+        {% block newsletter_popup_section %}
+            <div class="row">
+                <div class="col m-0">
+                    <div class="newsletter-popup-container">
+                        {% block newsletter_popup %}
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+        {% endblock %}
+    </div>
+
+    {% block site_modals %}
+    {% endblock site_modals %}
+{% endblock %}
+
+{% block base_script %}
+    {# Global javascript #}
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+            integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+            crossorigin="anonymous"></script>
+    <script src="//rum-static.pingdom.net/pa-5c6ca28c9a3f830016000788.js" async></script>
+
+{% endblock base_script %}
+
+{% block extra_js %}
+    {# Override this in templates to add extra javascript #}
+{% endblock %}
+
+</body>
+</html>

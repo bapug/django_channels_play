@@ -1,0 +1,78 @@
+#!/bin/bash
+
+port=8003
+SECURE=0
+NORELOAD=0
+CHANNELS=0
+HOST=
+while getopts ":p:slnc" option
+do
+    echo "Option is ${option} ${OPTARG}"
+    case ${option} in
+        p)
+            port=${OPTARG}
+            ;;
+        s)
+            SECURE=1
+            ;;
+        l)
+            HOST="0.0.0.0"
+            ;;
+        n)
+            NORELOAD=1
+            ;;
+        c)
+            CHANNELS=1
+            ;;
+
+    esac
+done
+shift $((OPTIND-1))
+
+echo "Remaining options are $@"
+
+host=""
+if [[ ! -z ${HOST} ]];then
+    host="${HOST}:"
+fi
+
+base=$(cd $(dirname $0) > /dev/null;pwd)
+root=$(dirname $(find . -depth -maxdepth 2 -name 'manage.py'))
+cd ${root} > /dev/null
+
+runcmd='runserver'
+
+echo "Channels ${CHANNELS}"
+
+if [[ ${CHANNELS} -eq 0 ]];then
+    pluscheck=$(${base}/.venv3/bin/python manage.py | grep runserver_plus)
+    runcmd=${pluscheck:-runserver}
+
+    if [[ ${pluscheck} ]];then
+        runcmd="runserver_plus --nopin"
+        if [[ ${SECURE} -eq 1 ]];then
+            echo "Running with secure"
+            runcmd="runserver_plus --nopin --cert-file ../ssl/private.crt"
+        else
+            echo "Running as http"
+        fi
+
+        extra="--extra-file .env.local --extra-file local_config.py"
+    fi
+fi
+
+echo "Run command: ${runcmd}"
+
+if [[ ${NORELOAD} -eq 1 ]]
+then
+    runcmd="${runcmd} --noreload"
+fi
+
+while true
+do
+    echo "${base}/.venv3/bin/python manage.py ${runcmd} ${extra} ${port} $@"
+    ${base}/.venv3/bin/python manage.py ${runcmd} ${extra} ${host}${port} $@
+    sleep 2
+done
+
+

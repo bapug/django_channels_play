@@ -1,0 +1,23 @@
+-r base.txt
+
+django-debug-toolbar
+django-developer-panel
+django-extensions
+pipdeptree
+
+Werkzeug[watchdog]
+
+# For debugging
+ipython
+ipython[notebook]
+jupyter
+
+# This is optional, and you have to install manually
+# It does notwork on CI server.
+#line_profiler
+
+pyOpenSSL
+
+# For Yaml, JSON parsing
+jq
+yq
