@@ -15,8 +15,6 @@ function init_chat(roomName) {
     console.error('Chat socket closed unexpectedly')
     console.dir(e)
   }
-  
-  
 }
 
 $(document).ready(function() {

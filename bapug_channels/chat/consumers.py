@@ -31,9 +31,17 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.channel_name
         )
 
-    # Broadcast to group that a client has joined
-    # "ed has joined the channel" -- etc.
     async def receive(self, text_data):
+        """
+        Receive message from a client, and then broadcast it to all
+        clients in the group with group_send
+
+        Note the type of 'chat.message', which calls the async 'chat_message"
+
+        Accept JSON or non-json data. JSON is decoded and send as a message
+        :param text_data:
+        :return:
+        """
         try:
             text_data_json = json.loads(text_data)
             message = text_data_json['message']
@@ -49,8 +57,13 @@ class ChatConsumer(AsyncWebsocketConsumer):
             }
         )
 
-    # Receive message from room group
     async def chat_message(self, event):
+        """
+        Receive message from the group_send, and in turn send
+        this to all clients.
+        :param event:
+        :return:
+        """
         message = event['message']
 
         # Send message to WebSocket
