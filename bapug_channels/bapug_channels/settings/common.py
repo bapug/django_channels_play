@@ -11,19 +11,38 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from email.utils import parseaddr
+import json
+import os
+from os.path import exists
+import re
+import markdown
+import environ
+
+env = environ.Env()
+
+DEBUG = env.bool('DJANGO_DEBUG', default=False)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+CONF_DIR = environ.Path(__file__)
+PROJECT_DIR = environ.Path(__file__) - 3
+BASE_DIR = PROJECT_DIR - 1
 
+if DEBUG:
+    print(f"Project Dir: {PROJECT_DIR} Base dir: {BASE_DIR}")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'faxfw575ccgui0fm$o&h&s#4p(t75ra4i6)wi6x&li2#s=f-s7'
+SECRET_KEY = env.str('SECRET_KEY')
+CSRF_COOKIE_SECURE = env.bool('CSRF_COOKIE_SECURE', default=True)
+SESSION_COOKIE_SECURE = env.bool('SESSION_COOKIE_SECURE', default=True)
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+default_admins = ['Ed Henderson <ed@gardentronic.com>']
+ADMINS = [parseaddr(addr) for addr in env.list("ADMINS", default=default_admins)]
+MANAGERS = ADMINS
+
 
 ALLOWED_HOSTS = []
 
@@ -37,6 +56,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'chat',
+    'webapp',
 ]
 
 MIDDLEWARE = [
@@ -68,6 +89,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'bapug_channels.wsgi.application'
+ASGI_APPLICATION = 'bapug_channels.routing.application'
 
 
 # Database
@@ -80,6 +102,30 @@ DATABASES = {
     }
 }
 
+# DATABASES = {
+#     'default': {
+#         **{
+#             'ATOMIC_REQUESTS': True,
+#             'CONN_MAX_AGE': 10,
+#         },
+#         **env.db("DATABASE_URL", default='postgresql://django_user:@localhost/gardenbuzz'),
+#     }
+# }
+
+CACHES = {
+    'default': {
+        **env.cache('REDIS_URL', default='dummycache://')
+    }
+}
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [env.str("CHANNELS_REDIS_URI", default="")],
+        },
+    },
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -117,4 +163,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
+STATIC_ROOT = PROJECT_DIR('static')
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    PROJECT_DIR('static'),
+]
+
+TEST_RUNNER = env('TEST_RUNNER', default='django_nose.NoseTestSuiteRunner')
+
+NOSE_ARGS = [
+    '--verbosity=2',
+]
+
