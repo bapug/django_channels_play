@@ -1,27 +1,7 @@
+{% extends "webapp/site_base.html" %}
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Chat</title>
-
-    <script
-            src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-            integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
-            crossorigin="anonymous">
-
-    </script>
-    {% block head_js %}
-        <script src="{% static 'js/chat.js' %}"></script>
-    {% endblock %}
-
-</head>
-<body>
-    {% block body %}
-    {% endblock body %}
-
-    {% block body_js %}
-    {% endblock body_js %}
-</body>
-</html>
+{% block head_js %}
+    {{ block.super }}
+    <script src="{% static 'js/chat.js' %}"></script>
+{% endblock %}

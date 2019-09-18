@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block head_js %}
+    {{ block.super }}
     <script src="{% static 'js/comments.js' %}"></script>
 {% endblock %}
 
