@@ -15,7 +15,7 @@ django-redis==4.10.0
 
 # Utilities
 pytz==2019.1
-Pillow==5.4.1
+Pillow==8.1.1
 
 # Channels
 channels==2.2.0
