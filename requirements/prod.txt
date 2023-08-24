@@ -1,6 +1,6 @@
 -r base.txt
 
 # Pick one!
-uwsgi==2.0.18
+uwsgi==2.0.22
 
 
